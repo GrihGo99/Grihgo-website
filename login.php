@@ -84,13 +84,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     SELECT u.*, c.id AS client_record_id, c.company_name, c.status AS client_status
                     FROM users u
                     LEFT JOIN clients c ON c.user_id = u.id
-                    WHERE (LOWER(u.email) = LOWER(:identifier) OR u.phone = :raw_identifier OR (u.phone = :clean_phone AND :clean_phone != ''))
+                    WHERE (LOWER(u.email) = LOWER(:identifier) OR u.phone = :raw_identifier OR (u.phone = :clean_phone AND :clean_phone_present != ''))
                     LIMIT 1
                 ");
                 $stmt->execute([
                     ':identifier'     => $identifier,
                     ':raw_identifier' => $identifier,
-                    ':clean_phone'    => $cleanPhone
+                    ':clean_phone'    => $cleanPhone,
+                    ':clean_phone_present' => $cleanPhone
                 ]);
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
