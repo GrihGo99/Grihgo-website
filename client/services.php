@@ -11,8 +11,8 @@ $portalPageTitle = 'Services Catalog';
 $portalHeaderTitle = 'Enterprise Services & Solutions';
 $current_portal_page = 'services';
 
-// Fetch services from memory or DB
-$servicesList = getServicesData();
+// Use the shared catalog defined in config/service-data.php
+$servicesList = getServiceCatalog();
 
 include __DIR__ . '/includes/header.php';
 ?>
@@ -32,19 +32,19 @@ include __DIR__ . '/includes/header.php';
                     <?= $srv['icon'] ?? '⚡' ?>
                 </div>
                 <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--portal-text-main); margin: 0 0 8px 0;">
-                    <?= htmlspecialchars($srv['title'], ENT_QUOTES, 'UTF-8') ?>
+                    <?= htmlspecialchars($srv['name'], ENT_QUOTES, 'UTF-8') ?>
                 </h3>
                 <p style="font-size: 0.88rem; color: #475569; line-height: 1.5; margin: 0 0 16px 0;">
                     <?= htmlspecialchars($srv['short_desc'], ENT_QUOTES, 'UTF-8') ?>
                 </p>
 
-                <?php if (!empty($srv['deliverables'])): ?>
+                <?php if (!empty($srv['features'])): ?>
                     <div style="margin-bottom: 18px;">
                         <span style="font-size: 0.72rem; text-transform: uppercase; font-weight: 700; color: #94a3b8; letter-spacing: 0.6px; display: block; margin-bottom: 6px;">
                             Key Capabilities
                         </span>
                         <ul style="margin: 0; padding-left: 18px; font-size: 0.8rem; color: #475569; line-height: 1.6;">
-                            <?php foreach (array_slice($srv['deliverables'], 0, 3) as $deliv): ?>
+                            <?php foreach (array_slice($srv['features'], 0, 3) as $deliv): ?>
                                 <li><?= htmlspecialchars($deliv, ENT_QUOTES, 'UTF-8') ?></li>
                             <?php endforeach; ?>
                         </ul>
@@ -53,11 +53,11 @@ include __DIR__ . '/includes/header.php';
             </div>
 
             <div style="padding: 16px 24px; background: #fafafa; border-top: 1px solid var(--portal-border); display: flex; align-items: center; justify-content: space-between;">
-                <a href="../services/<?= urlencode($slug) ?>.php" target="_blank" style="font-size: 0.82rem; font-weight: 600; color: #475569; text-decoration: none;">
+                <a href="../<?= htmlspecialchars($srv['file'], ENT_QUOTES, 'UTF-8') ?>" target="_blank" style="font-size: 0.82rem; font-weight: 600; color: #475569; text-decoration: none;">
                     View Scope &rarr;
                 </a>
                 <button type="button" class="btn-portal-primary btn-portal-sm btn-request-service" 
-                        data-service="<?= htmlspecialchars($srv['title'], ENT_QUOTES, 'UTF-8') ?>">
+                        data-service="<?= htmlspecialchars($srv['name'], ENT_QUOTES, 'UTF-8') ?>">
                     <span>Request Service</span>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </button>
