@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /manager/
+Disallow: /client/
+Disallow: /api/
+Disallow: /config/
+Disallow: /scratch/
+Disallow: /database/
+Disallow: /logs/
+
+Sitemap: https://grihgodigital.com/sitemap.xml

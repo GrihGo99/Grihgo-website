@@ -1,0 +1,24 @@
+# =======================================================
+# GrihGO Digital & Tech — Production Web Server Config
+# =======================================================
+
+# 1. Prevent Directory Indexing
+Options -Indexes
+
+# 2. Block Direct Access to Sensitive Files and Backups
+<FilesMatch "\.(env|sql|sqlite|sqlite3|log|ini|sh|bak|md|git)$">
+    Require all denied
+</FilesMatch>
+
+# 3. Custom Error Documents
+ErrorDocument 404 /404.php
+ErrorDocument 403 /403.php
+ErrorDocument 500 /500.php
+
+# 4. Security Headers (Compatible with standard Apache / LiteSpeed)
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>

@@ -1,0 +1,18 @@
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# Runtime data and local test artifacts
+/logs/*
+!/logs/.gitkeep
+/database/*.sqlite
+/database/*.sqlite-*
+/uploads/*
+!/uploads/.htaccess
+/scratch/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/

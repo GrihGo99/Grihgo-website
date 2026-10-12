@@ -1,0 +1,494 @@
+/* ==========================================================================
+   GrihGO Digital & Tech — Responsive Stylesheet
+   Breakpoints: 1440px, 1024px, 768px, 425px, 375px, 320px
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Large Desktops (1440px and below)
+   -------------------------------------------------------------------------- */
+@media (max-width: 1440px) {
+    :root {
+        --container-max: 1180px;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Laptops & Small Desktops (1024px and below)
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+    :root {
+        --header-height: 72px;
+        --container-max: 960px;
+    }
+
+    .main-nav {
+        display: none;
+    }
+
+    .mobile-menu-toggle {
+        display: flex;
+    }
+
+    .header-actions .cta-btn span {
+        display: inline;
+    }
+
+    /* Hero Section */
+    .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+        text-align: center;
+    }
+
+    .hero-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-subheading {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-ctas {
+        justify-content: center;
+    }
+
+    .hero-metrics {
+        justify-content: center;
+    }
+
+    .hero-visual-wrapper {
+        min-height: 420px;
+    }
+
+    .hero-3d-scene {
+        width: 380px;
+        height: 380px;
+    }
+
+    /* Grids to 2 Columns */
+    .biz-intro-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .services-grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .ai-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .why-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .tech-stack-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .testimonials-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Process Timeline */
+    .process-timeline {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+    }
+
+    .process-timeline::before {
+        display: none;
+    }
+
+    /* Footer */
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 36px;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Tablets & Phablets (768px and below)
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    :root {
+        --header-height: 66px;
+    }
+
+    .section {
+        padding-top: 60px;
+        padding-bottom: 60px;
+    }
+
+    .top-bar {
+        display: none; /* Hide topbar on mobile to maximize viewport */
+    }
+
+    .header-actions .login-btn {
+        display: none; /* Accessible in mobile drawer */
+    }
+
+    .header-actions .cta-btn {
+        padding: 8px 14px;
+        font-size: 0.8rem;
+    }
+
+    /* Hero */
+    .hero-section {
+        padding-top: 40px;
+        padding-bottom: 60px;
+    }
+
+    .hero-headline {
+        font-size: 2.2rem;
+    }
+
+    .hero-subheading {
+        font-size: 1rem;
+    }
+
+    .hero-metrics {
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .hero-visual-wrapper {
+        min-height: 340px;
+    }
+
+    .hero-3d-scene {
+        width: 300px;
+        height: 300px;
+    }
+
+    .digital-sphere {
+        width: 140px;
+        height: 140px;
+    }
+
+    .orbit-ring-1 { width: 220px; height: 220px; margin-top: -110px; margin-left: -110px; }
+    .orbit-ring-2 { width: 300px; height: 300px; margin-top: -150px; margin-left: -150px; }
+    .orbit-ring-3 { display: none; }
+
+    .hero-card-float {
+        padding: 10px 14px;
+    }
+
+    .float-icon {
+        width: 34px;
+        height: 34px;
+        font-size: 1rem;
+    }
+
+    .card-float-top { left: -10px; top: 10px; }
+    .card-float-right { right: -10px; top: 100px; }
+    .card-float-bottom { display: none; }
+
+    /* Grids to 1 Column */
+    .biz-intro-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+    }
+
+    .services-grid-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .ai-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .wa-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .wa-mockup-body {
+        grid-template-columns: 1fr;
+    }
+
+    .wa-mockup-sidebar {
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 10px;
+    }
+
+    .wa-stat-chip {
+        min-width: 90px;
+    }
+
+    .billing-showcase-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .products-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .why-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tech-stack-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .process-timeline {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cta-banner-box {
+        padding: 48px 24px;
+    }
+
+    .contact-layout-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+    }
+
+    .form-grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .benefits-split-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+    }
+
+    .floating-wa-btn {
+        bottom: 20px;
+        right: 20px;
+        left: auto;
+        width: 50px;
+        height: 50px;
+    }
+
+    .back-to-top {
+        bottom: 78px;
+        right: 22px;
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Mobile Phones (425px, 375px, 320px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 425px) {
+    .container {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .hero-headline {
+        font-size: 1.85rem;
+    }
+
+    .hero-badge {
+        font-size: 0.775rem;
+        padding: 6px 14px;
+    }
+
+    .hero-ctas {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .hero-ctas .btn {
+        width: 100%;
+    }
+
+    .btn-group {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn-group .btn {
+        width: 100%;
+    }
+
+    .hero-metrics {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        text-align: center;
+    }
+
+    .hero-visual-wrapper {
+        min-height: 280px;
+    }
+
+    .hero-3d-scene {
+        width: 240px;
+        height: 240px;
+    }
+
+    .digital-sphere {
+        width: 110px;
+        height: 110px;
+    }
+
+    .orbit-ring-1 { width: 170px; height: 170px; margin-top: -85px; margin-left: -85px; }
+    .orbit-ring-2 { width: 220px; height: 220px; margin-top: -110px; margin-left: -110px; }
+
+    .card-float-top { left: -15px; top: 0px; }
+    .card-float-right { right: -15px; top: 70px; }
+
+    .about-ecosystem-nodes {
+        grid-template-columns: 1fr;
+    }
+
+    .about-values-list {
+        grid-template-columns: 1fr;
+    }
+
+    .wa-features-pill-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .process-timeline {
+        grid-template-columns: 1fr;
+    }
+
+    .tech-stack-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .form-card {
+        padding: 24px 16px;
+    }
+
+    .login-card-container {
+        padding: 28px 18px;
+    }
+
+    .cta-banner-box {
+        padding: 40px 18px;
+    }
+
+    .faq-question-btn {
+        padding: 16px 18px;
+        font-size: 0.95rem;
+    }
+
+    .faq-answer-content {
+        padding: 0 18px 18px 18px;
+        font-size: 0.875rem;
+    }
+}
+
+/* Extra small devices (320px) */
+@media (max-width: 340px) {
+    .hero-headline {
+        font-size: 1.65rem;
+    }
+
+    .brand-logo .logo-image {
+        max-height: 38px;
+    }
+
+    .cta-btn {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Accessibility: prefers-reduced-motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .digital-sphere,
+    .orbit-ring,
+    .hero-card-float,
+    .pulse-indicator {
+        animation: none !important;
+    }
+}
+
+/* Antigravity 2.0 Responsive Extensions */
+@media (max-width: 1024px) {
+    .tig-pillars-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .automate-points-grid,
+    .accelerate-points-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .tech-categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .proven-eng-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+    }
+}
+
+@media (max-width: 768px) {
+    .automate-points-grid,
+    .accelerate-points-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .tech-categories-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .automate-points-grid,
+    .accelerate-points-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
