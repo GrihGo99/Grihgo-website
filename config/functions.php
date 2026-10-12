@@ -435,7 +435,7 @@ function addSystemNotification($arg1, $arg2 = null, $arg3 = null, $arg4 = null, 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, CURRENT_TIMESTAMP)
         ");
         return $stmt->execute([
-            $recipientId,
+            $recipientRole === 'client' ? $recipientId : null,
             $recipientRole,
             $type,
             $title,

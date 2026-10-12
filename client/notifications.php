@@ -12,10 +12,10 @@ $current_portal_page = 'notifications';
 
 $pdo = Database::getConnection();
 
-// Scoped strictly to authenticated client + general system notices
+// Only notifications addressed to the authenticated client are visible.
 $stmt = $pdo->prepare("
     SELECT * FROM notifications 
-    WHERE client_id = :cid OR client_id IS NULL 
+    WHERE client_id = :cid
     ORDER BY is_read ASC, created_at DESC 
     LIMIT 50
 ");

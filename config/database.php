@@ -5,20 +5,44 @@
  * Technology: PHP 8+, PDO (MySQL / MariaDB with Secure Fallback)
  */
 
+// cPanel deployments can keep credentials outside the document root in
+// /home/<account>/grihgo-config.php. Environment variables take precedence.
+$privateConfigPath = getenv('GRIHGO_CONFIG_PATH') ?: dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'grihgo-config.php';
+$privateConfig = is_file($privateConfigPath) ? require $privateConfigPath : [];
+if (!is_array($privateConfig)) {
+    $privateConfig = [];
+}
+
+foreach (['DB_HOST', 'DB_PORT', 'DB_NAME', 'DB_USER', 'DB_PASSWORD', 'INITIAL_ADMIN_EMAIL', 'INITIAL_ADMIN_PASSWORD'] as $configKey) {
+    $environmentValue = getenv($configKey);
+    if ($environmentValue !== false && $environmentValue !== '') {
+        $privateConfig[$configKey] = $environmentValue;
+    }
+}
+
+if (!defined('APP_ENV')) {
+    define('APP_ENV', $privateConfig['APP_ENV'] ?? (getenv('APP_ENV') ?: 'development'));
+}
 if (!defined('DB_HOST')) {
-    define('DB_HOST', getenv('DB_HOST') ?: '127.0.0.1');
+    define('DB_HOST', $privateConfig['DB_HOST'] ?? '127.0.0.1');
 }
 if (!defined('DB_PORT')) {
-    define('DB_PORT', getenv('DB_PORT') ?: '3306');
+    define('DB_PORT', $privateConfig['DB_PORT'] ?? '3306');
 }
 if (!defined('DB_NAME')) {
-    define('DB_NAME', getenv('DB_NAME') ?: 'grihgo_db');
+    define('DB_NAME', $privateConfig['DB_NAME'] ?? 'grihgo_db');
 }
 if (!defined('DB_USER')) {
-    define('DB_USER', getenv('DB_USER') ?: 'root');
+    define('DB_USER', $privateConfig['DB_USER'] ?? 'root');
 }
 if (!defined('DB_PASSWORD')) {
-    define('DB_PASSWORD', getenv('DB_PASSWORD') !== false ? getenv('DB_PASSWORD') : '');
+    define('DB_PASSWORD', $privateConfig['DB_PASSWORD'] ?? '');
+}
+if (!defined('INITIAL_ADMIN_EMAIL')) {
+    define('INITIAL_ADMIN_EMAIL', $privateConfig['INITIAL_ADMIN_EMAIL'] ?? '');
+}
+if (!defined('INITIAL_ADMIN_PASSWORD')) {
+    define('INITIAL_ADMIN_PASSWORD', $privateConfig['INITIAL_ADMIN_PASSWORD'] ?? '');
 }
 if (!defined('DB_CHARSET')) {
     define('DB_CHARSET', 'utf8mb4');
@@ -54,10 +78,15 @@ class Database {
             DB_CHARSET
         );
 
+        if (APP_ENV === 'production' && (DB_NAME === 'grihgo_db' || DB_USER === 'root' || DB_PASSWORD === '')) {
+            throw new RuntimeException('Production database configuration is incomplete.');
+        }
+
         // 1. Attempt Primary MySQL Connection
         try {
             self::$instance = new PDO($dsn, DB_USER, DB_PASSWORD, $options);
             self::$activeDriver = 'mysql';
+            self::seedInitialAdmin(self::$instance);
             return self::$instance;
 
         } catch (PDOException $e) {
@@ -82,8 +111,12 @@ class Database {
                 }
             }
 
-            // 2. High-Resilience Fallback: Local SQLite storage if MySQL service is not yet running
-            // This guarantees zero form failure and full testability on any development environment
+            // Keep SQLite as a local-development fallback only. Production must
+            // fail loudly rather than silently storing submissions in a file.
+            if (APP_ENV === 'production') {
+                throw new RuntimeException('Production database is unavailable. Check the database setup.');
+            }
+
             try {
                 $dbDir = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'database';
                 if (!is_dir($dbDir)) {
@@ -101,6 +134,26 @@ class Database {
                 self::logError("Fatal Database Error: " . $fallbackEx->getMessage());
                 throw new RuntimeException("Database service is currently unavailable. Please try again shortly.");
             }
+        }
+    }
+
+    /** Create the first administrator after the production schema is imported. */
+    private static function seedInitialAdmin(PDO $pdo): void {
+        $email = trim(INITIAL_ADMIN_EMAIL);
+        $password = INITIAL_ADMIN_PASSWORD;
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($password) < 16) {
+            return;
+        }
+
+        try {
+            if ((int)$pdo->query('SELECT COUNT(*) FROM admins')->fetchColumn() !== 0) {
+                return;
+            }
+            $stmt = $pdo->prepare("INSERT INTO admins (full_name, email, password_hash, role, status) VALUES (?, ?, ?, 'super_admin', 'active')");
+            $stmt->execute(['Super Administrator', $email, password_hash($password, PASSWORD_DEFAULT)]);
+        } catch (PDOException $e) {
+            // During initial setup the schema may not have been imported yet.
+            self::logError('Initial administrator setup notice: ' . $e->getMessage());
         }
     }
 
@@ -441,8 +494,8 @@ class Database {
         // 1. Create the first admin only when the installer supplies credentials.
         try {
             $adminCount = (int)$pdo->query("SELECT COUNT(*) FROM admins")->fetchColumn();
-            $initialAdminEmail = trim((string)getenv('INITIAL_ADMIN_EMAIL'));
-            $initialAdminPassword = (string)getenv('INITIAL_ADMIN_PASSWORD');
+            $initialAdminEmail = INITIAL_ADMIN_EMAIL;
+            $initialAdminPassword = INITIAL_ADMIN_PASSWORD;
             if ($adminCount === 0 && filter_var($initialAdminEmail, FILTER_VALIDATE_EMAIL) && strlen($initialAdminPassword) >= 16) {
                 $hash = password_hash($initialAdminPassword, PASSWORD_DEFAULT);
                 $pdo->prepare("INSERT INTO admins (full_name, email, password_hash, role, status) VALUES (?, ?, ?, 'super_admin', 'active')")

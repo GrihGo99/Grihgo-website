@@ -4,7 +4,7 @@
 -- Target: MySQL 8.0+ / MariaDB 10.4+ / InnoDB
 -- =======================================================
 
-USE `grihgo_db`;
+-- Select the target database in phpMyAdmin before importing this file.
 
 SET FOREIGN_KEY_CHECKS = 0;
 

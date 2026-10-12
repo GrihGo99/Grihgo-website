@@ -5,11 +5,7 @@
 -- Charset: utf8mb4 / utf8mb4_unicode_ci
 -- =======================================================
 
-CREATE DATABASE IF NOT EXISTS `grihgo_db` 
-CHARACTER SET utf8mb4 
-COLLATE utf8mb4_unicode_ci;
-
-USE `grihgo_db`;
+-- Select the target database in phpMyAdmin before importing this file.
 
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -40,7 +36,11 @@ CREATE TABLE `admins` (
   `user_id` INT NULL,
   `full_name` VARCHAR(150) NOT NULL,
   `email` VARCHAR(150) NOT NULL UNIQUE,
-  `role` ENUM('super_admin', 'manager', 'sales', 'support') NOT NULL DEFAULT 'manager',
+  `password_hash` VARCHAR(255) NOT NULL,
+  `role` ENUM('super_admin', 'admin', 'manager', 'sales', 'support', 'staff') NOT NULL DEFAULT 'admin',
+  `status` ENUM('active', 'inactive', 'suspended') NOT NULL DEFAULT 'active',
+  `phone` VARCHAR(50) NULL,
+  `last_login_at` DATETIME NULL,
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   INDEX `idx_admins_email` (`email`),
@@ -195,9 +195,15 @@ CREATE TABLE `portfolio` (
   `title` VARCHAR(200) NOT NULL,
   `category` VARCHAR(100) NOT NULL,
   `client_name` VARCHAR(150) NULL,
+  `industry` VARCHAR(100) NULL,
   `description` TEXT NULL,
+  `solution` TEXT NULL,
+  `technology` VARCHAR(255) NULL,
+  `impact` TEXT NULL,
   `image_url` VARCHAR(255) NULL,
-  `live_url` VARCHAR(255) NULL,
+  `project_url` VARCHAR(255) NULL,
+  `status` ENUM('published', 'draft') NOT NULL DEFAULT 'published',
+  `sort_order` INT NOT NULL DEFAULT 0,
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -209,11 +215,15 @@ CREATE TABLE `testimonials` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `client_name` VARCHAR(150) NOT NULL,
   `company_position` VARCHAR(150) NULL,
+  `designation` VARCHAR(150) NULL,
   `company_name` VARCHAR(150) NULL,
   `rating` TINYINT NOT NULL DEFAULT 5,
   `content` TEXT NOT NULL,
   `avatar_url` VARCHAR(255) NULL,
+  `image_url` VARCHAR(255) NULL,
   `is_featured` TINYINT(1) NOT NULL DEFAULT 1,
+  `status` ENUM('published', 'draft') NOT NULL DEFAULT 'published',
+  `sort_order` INT NOT NULL DEFAULT 0,
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -229,7 +239,11 @@ CREATE TABLE `blog_posts` (
   `content` TEXT NOT NULL,
   `author_name` VARCHAR(100) NOT NULL DEFAULT 'GrihGO Editorial Team',
   `featured_image` VARCHAR(255) NULL,
-  `status` ENUM('draft', 'published') NOT NULL DEFAULT 'published',
+  `category` VARCHAR(100) NOT NULL DEFAULT 'Technology',
+  `tags` VARCHAR(255) NULL,
+  `meta_title` VARCHAR(255) NULL,
+  `meta_desc` TEXT NULL,
+  `status` ENUM('draft', 'published', 'archived') NOT NULL DEFAULT 'published',
   `published_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   INDEX `idx_blog_slug` (`slug`)

@@ -35,7 +35,7 @@ try {
     $stmt = $pdo->prepare("
         UPDATE notifications 
         SET is_read = 1 
-        WHERE id = :nid AND (client_id = :cid OR client_id IS NULL)
+        WHERE id = :nid AND client_id = :cid
     ");
     $stmt->execute([':nid' => $notifId, ':cid' => $clientId]);
 

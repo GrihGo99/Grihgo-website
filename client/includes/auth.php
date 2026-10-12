@@ -91,7 +91,7 @@ $clientGst = htmlspecialchars($authClient['gst_number'] ?? '', ENT_QUOTES, 'UTF-
 $clientAvatar = $authClient['profile_image'] ?? null;
 
 // Get unread notification count
-$notifStmt = $pdo->prepare("SELECT COUNT(*) FROM notifications WHERE (client_id = :client_id OR client_id IS NULL) AND is_read = 0");
+$notifStmt = $pdo->prepare("SELECT COUNT(*) FROM notifications WHERE client_id = :client_id AND is_read = 0");
 $notifStmt->execute([':client_id' => $clientId]);
 $unreadNotificationsCount = (int)$notifStmt->fetchColumn();
 

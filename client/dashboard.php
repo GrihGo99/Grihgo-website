@@ -90,7 +90,7 @@ $recentInvoices = $stmtInvList->fetchAll(PDO::FETCH_ASSOC);
 // 6. Fetch Recent Notifications
 $stmtRecentNotif = $pdo->prepare("
     SELECT * FROM notifications 
-    WHERE (client_id = :cid OR client_id IS NULL) 
+    WHERE client_id = :cid
     ORDER BY created_at DESC 
     LIMIT 4
 ");

@@ -5,7 +5,7 @@
 -- Target: MySQL 8.0+ / MariaDB 10.4+ / InnoDB / utf8mb4
 -- =======================================================
 
-USE `grihgo_db`;
+-- Select the target database in phpMyAdmin before importing this file.
 
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -50,6 +50,7 @@ UPDATE `appointments`
 -- 4. Table: projects (Ensure project_name, manager_id, end_date compatibility)
 ALTER TABLE `projects` 
   ADD COLUMN IF NOT EXISTS `project_name` VARCHAR(200) NULL AFTER `id`,
+  ADD COLUMN IF NOT EXISTS `assigned_to` INT NULL AFTER `progress`,
   ADD COLUMN IF NOT EXISTS `manager_id` INT NULL AFTER `progress`,
   ADD COLUMN IF NOT EXISTS `end_date` DATE NULL AFTER `expected_completion`;
 
@@ -89,6 +90,7 @@ UPDATE `invoices`
 -- 7. Table: notifications (Ensure user_id, user_type, link compatibility)
 ALTER TABLE `notifications` 
   ADD COLUMN IF NOT EXISTS `user_id` INT NULL AFTER `id`,
+  ADD COLUMN IF NOT EXISTS `user_role` VARCHAR(50) NOT NULL DEFAULT 'admin' AFTER `user_id`,
   ADD COLUMN IF NOT EXISTS `user_type` VARCHAR(50) NOT NULL DEFAULT 'client' AFTER `user_id`,
   ADD COLUMN IF NOT EXISTS `link` VARCHAR(255) NULL AFTER `message`;
 

@@ -30,7 +30,7 @@ try {
     $stmt = $pdo->prepare("
         UPDATE notifications 
         SET is_read = 1 
-        WHERE (client_id = :cid OR client_id IS NULL) AND is_read = 0
+        WHERE client_id = :cid AND is_read = 0
     ");
     $stmt->execute([':cid' => $clientId]);
 
