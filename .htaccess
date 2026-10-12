@@ -5,6 +5,14 @@
 # 1. Prevent Directory Indexing
 Options -Indexes
 
+# Send website and panel traffic over HTTPS. Keep certificate renewal reachable.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/
+    RewriteRule ^ https://grihgodigitaltech.com%{REQUEST_URI} [R=308,L]
+</IfModule>
+
 # 2. Block Direct Access to Sensitive Files and Backups
 <FilesMatch "\.(env|sql|sqlite|sqlite3|log|ini|sh|bak|md|git)$">
     Require all denied
