@@ -518,19 +518,6 @@
             }
         }
 
-        // 3. Login Notice (Preserved from Part 1)
-        const loginForm = document.getElementById('loginForm');
-        if (loginForm) {
-            loginForm.addEventListener('submit', function (e) {
-                e.preventDefault();
-                const alert = document.getElementById('loginAlert');
-                if (alert) {
-                    alert.style.display = 'block';
-                    alert.className = 'form-alert success';
-                    alert.innerHTML = `<strong>Notice:</strong> Client Authentication & Portal Dashboard are scheduled for deployment in Part 3. Backend database architecture has been established.`;
-                }
-            });
-        }
     }
 
     /* --------------------------------------------------------------------------
